@@ -5,14 +5,15 @@ Sistema de consulta de CEP integrado com a API ViaCEP, desenvolvido com JavaScri
 ![Badge](https://img.shields.io/badge/Status-Concluído-success)
 ![Badge](https://img.shields.io/badge/JavaScript-ES6+-yellow)
 ![Badge](https://img.shields.io/badge/Arquitetura-MVC-blue)
+![Badge](https://img.shields.io/badge/Testes-Jest-red)
 
 ## 📋 Sobre o Projeto
 
-Aplicação web que permite buscar informações de endereço através do CEP (Código de Endereçamento Postal) brasileiro. O projeto foi desenvolvido com foco em boas práticas de programação, utilizando Async/Await, consumo de APIs REST e arquitetura MVC.
+Aplicação web que permite buscar informações de endereço através do CEP (Código de Endereçamento Postal) brasileiro. O projeto foi desenvolvido com foco em boas práticas de programação, utilizando Async/Await, consumo de APIs REST, arquitetura MVC e testes unitários.
 
 ### 🎯 Objetivo
 
-Demonstrar domínio de JavaScript assíncrono, manipulação de APIs REST, e organização de código com padrões de arquitetura profissionais.
+Demonstrar domínio de JavaScript assíncrono, manipulação de APIs REST, organização de código com padrões de arquitetura profissionais e implementação de testes automatizados.
 
 ## ✨ Funcionalidades
 
@@ -22,6 +23,7 @@ Demonstrar domínio de JavaScript assíncrono, manipulação de APIs REST, e org
 - ✅ Feedback visual de loading
 - ✅ Tratamento de erros amigável
 - ✅ Interface responsiva
+- ✅ Testes unitários automatizados
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -33,6 +35,7 @@ Demonstrar domínio de JavaScript assíncrono, manipulação de APIs REST, e org
 - **HTML5**
 - **CSS3**
 - **API REST** - ViaCEP
+- **Jest** - Framework de testes
 
 ## 🏗️ Arquitetura
 
@@ -50,7 +53,10 @@ src/
 ProjetoCEP/
 │
 ├── index.html
-├── app.js                    # Ponto de entrada da aplicação
+├── app.js                       # Ponto de entrada da aplicação
+├── package.json                 # Dependências e scripts
+├── jest.config.cjs              # Configuração do Jest
+├── babel.config.js              # Configuração do Babel
 │
 ├── assets/
 │   └── css/
@@ -58,19 +64,27 @@ ProjetoCEP/
 │
 ├── src/
 │   ├── controllers/
-│   │   └── CepController.js  # Orquestração da aplicação
+│   │   └── CepController.js     # Orquestração da aplicação
 │   │
 │   ├── models/
-│   │   └── CepModel.js       # Processamento de dados do CEP
+│   │   └── CepModel.js          # Processamento de dados do CEP
 │   │
 │   ├── services/
-│   │   └── CepService.js     # Integração com API ViaCEP
+│   │   └── CepService.js        # Integração com API ViaCEP
 │   │
 │   └── views/
-│       └── CepView.js        # Manipulação da interface
+│       └── CepView.js           # Manipulação da interface
+│
+├── tests/
+│   └── unit/
+│       ├── CepController.test.js
+│       ├── CepModel.test.js
+│       ├── CepService.test.js
+│       ├── CepView.test.js
+│       └── validators.test.js
 │
 └── utils/
-    └── validators.js         # Funções de validação
+    └── validators.js            # Funções de validação
 ```
 
 ## 🚀 Como Executar
@@ -78,41 +92,43 @@ ProjetoCEP/
 ### Pré-requisitos
 
 - Navegador moderno (Chrome, Firefox, Edge, Safari)
+- Node.js instalado (para rodar testes)
 - Servidor local (não funciona com `file://`)
 
-### Opção 1: Live Server (VS Code)
-
-1. Instale a extensão **Live Server** no VS Code
-2. Clone o repositório:
-```bash
-git clone https://github.com/CaioTrigo-dev/busca-cep
-cd busca-cep
-```
-3. Clique com botão direito no `index.html`
-4. Selecione **"Open with Live Server"**
-
-### Opção 2: Python
+### Instalação
 ```bash
 # Clone o repositório
 git clone https://github.com/CaioTrigo-dev/busca-cep
 cd busca-cep
 
-# Inicie o servidor
-python -m http.server 8000
+# Instale as dependências (para testes)
+npm install
+```
 
+### Executar a Aplicação
+
+#### Opção 1: Live Server (VS Code)
+
+1. Instale a extensão **Live Server** no VS Code
+2. Clique com botão direito no `index.html`
+3. Selecione **"Open with Live Server"**
+
+#### Opção 2: Python
+```bash
+python -m http.server 8000
 # Acesse: http://localhost:8000
 ```
 
-### Opção 3: Node.js
+#### Opção 3: Node.js
 ```bash
-# Clone o repositório
-git clone https://github.com/CaioTrigo-dev/busca-cep
-cd busca-cep
-
-# Inicie o servidor
 npx http-server
-
 # Acesse o endereço fornecido
+```
+
+### Executar Testes
+```bash
+# Rodar todos os testes
+npm test
 ```
 
 ## 💻 Como Usar
@@ -173,12 +189,42 @@ npx http-server
 - **Service Layer**: Abstração de serviços externos
 - **Singleton Pattern**: Instância única do Controller
 
+### Testes Automatizados
+- **Jest**: Framework de testes JavaScript
+- **Testes Unitários**: Validação de funções isoladas
+- **Mocks**: Simulação de APIs e dependências externas
+- **Cobertura de Código**: Medição de código testado
+
 ### Boas Práticas
 - Tratamento robusto de erros
 - Validação de dados no frontend
 - Código limpo e organizado
 - Módulos ES6 para melhor estrutura
 - Separação clara de responsabilidades
+- Testes automatizados para garantia de qualidade
+
+## 🧪 Testes Unitários
+
+O projeto conta com testes automatizados para garantir a qualidade e confiabilidade do código.
+
+### Cobertura de Testes
+
+- ✅ **Validators**: Validação e formatação de CEP
+- ✅ **CepModel**: Processamento de dados
+- ✅ **CepService**: Integração com API
+- ✅ **CepController**: Lógica de orquestração
+- ✅ **CepView**: Manipulação de interface
+
+### Tecnologias de Teste
+
+- **Jest**: Framework de testes
+- **Babel**: Transpilação para compatibilidade
+
+### Comandos de Teste
+```bash
+# Executar todos os testes
+npm test
+```
 
 ## 🐛 Tratamento de Erros
 
@@ -190,6 +236,11 @@ O sistema trata os seguintes cenários:
 - ❌ Erro de conexão com a API
 - ❌ Campo vazio ao tentar buscar
 
+## 📊 Métricas do Projeto
+
+- **Arquitetura**: MVC
+- **Cobertura de Testes**: Em desenvolvimento
+- **Padrões**: ES6+, POO, Async/Await
 
 ## 📚 Aprendizados
 
@@ -198,9 +249,11 @@ Este projeto me permitiu aprofundar conhecimentos em:
 - Arquitetura MVC em JavaScript vanilla
 - Consumo de APIs REST com Fetch e Async/Await
 - Programação Orientada a Objetos em JavaScript
+- Implementação de testes unitários com Jest
 - Manipulação do DOM
 - Organização de código profissional
 - Tratamento de erros assíncronos
+- Garantia de qualidade com testes automatizados
 
 ## 👤 Autor
 
@@ -209,4 +262,3 @@ Este projeto me permitiu aprofundar conhecimentos em:
 - GitHub: [@CaioTrigo-dev](https://github.com/CaioTrigo-dev)
 - LinkedIn: [Caio Trigo](https://linkedin.com/in/caio-trigo-7a653a33b/)
 - Email: Caiorj95@gmail.com
-
