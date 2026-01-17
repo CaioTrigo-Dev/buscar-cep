@@ -4,7 +4,6 @@ export function checkCEP(cep){
             throw new Error('CEP Invalido!')
         }
         else if(typeof(cep) != 'number'){
-            console.log(typeof(cep))
             throw new Error('Apenas Número')
         }
         else{

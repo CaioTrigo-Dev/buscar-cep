@@ -12,24 +12,33 @@ class ControllerCEP {
     }
 
     init(){
-        const CEP = this.view.searchCEP()
-        if(this.validateCEP(CEP)){
-            this.view.Erro()
+        try{
+            const CEP = this.view.searchCEP();
+            if(this.validateCEP(CEP) === true){
+                this.view.Loading();
+                setTimeout(()=>{
+                    this.apiCEP(CEP);
+                },2000)
+            }
+            else{
+                this.view.Erro();
+            }
         }
-        this.view.Loading()
+        catch(e){
+            return e;
+        }
     }
 
     validateCEP(cep){
         try{
-            const resultValidate = checkCEP(Number(cep))
-            if(resultValidate === true){
-                this.apiCEP(cep)
-            }
-            else{
+            const CEPNumber = Number(cep);
+            const resultValidate = checkCEP(CEPNumber);
+            if(resultValidate === 'CEP Invalido!'){
                 throw new Error('CEP Invalido!');
             }
+            return resultValidate;
         }catch(e){
-            return e.message;
+            return e;
         }
     }
 
