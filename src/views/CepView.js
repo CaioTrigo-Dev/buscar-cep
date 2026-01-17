@@ -11,7 +11,6 @@ class ViewCEP{
 
     Display(data){
         const p = document.getElementById('resultCEP');
-        console.log(data)
         p.innerHTML = data;
     }
     Loading(){
