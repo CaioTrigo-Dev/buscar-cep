@@ -6,51 +6,48 @@ import ServiceCEP from "../services/CepServices.js";
 
 class ControllerCEP {
     constructor(){
-        this.view = new ViewCEP;
-        this.model = new ModelCEP;
-        this.servicesCEP = new ServiceCEP;
+        this.view = new ViewCEP();
+        this.model = new ModelCEP();
+        this.services = new ServiceCEP();
     }
 
-    init(){
+    async init(){
         try{
-            const CEP = this.view.searchCEP();
-            if(this.validateCEP(CEP) === true){
-                this.view.Loading();
-                setTimeout(()=>{
-                    this.apiCEP(CEP);
-                },2000)
+            const cep = this.view.getCepValue();
+            if(!this.isValidCEP(cep)){
+                this.view.renderError("CEP Inválido");
+                return;
             }
-            else{
-                this.view.Erro();
-            }
-        }
-        catch(e){
-            return e;
-        }
-    }
+            this.view.renderLoading();
 
-    validateCEP(cep){
-        try{
-            const CEPNumber = Number(cep);
-            const resultValidate = checkCEP(CEPNumber);
-            if(resultValidate === 'CEP Invalido!'){
-                throw new Error('CEP Invalido!');
-            }
-            return resultValidate;
-        }catch(e){
-            return e;
+            await this.handleCEPSearch(cep);
+        }
+        catch(error){
+            console.error(error);
+            this.view.renderError("Erro ao Buscar CEP. Tente Novamente");
         }
     }
 
-    async apiCEP(cep){
-        try{
-            const data = await this.servicesCEP.getCEP(cep);
-            const processedData = this.model.processingData(data);
-            this.view.Display(processedData);
-        }catch(e){
-            return e;
+    isValidCEP(cep){
+        const cepNumber = Number(cep);
+
+        if(checkCEP(cepNumber)){
+            return true;
         }
-        
+        else{
+            return false;
+        }
+    }
+
+    async handleCEPSearch(cep){
+        const data = await this.services.getCEP(cep);
+
+        if(!data){
+            throw new Error("Nenhum dado encontrado");
+        }
+
+        const processedData = this.model.formatData(data);
+        this.view.renderSucess(processedData);
     }
 }
 
