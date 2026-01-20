@@ -1,24 +1,42 @@
 class ViewCEP{
     constructor(){
-        this.input = document.getElementById('CEP').value;
-        this.btnSearch = document.getElementById('btnCEP');
-        this.divResult = document.getElementById('result');
+        this.inputElement = document.getElementById('CEP');
+        this.btnElement = document.getElementById('btnCEP');
+        this.resultContainer = document.getElementById('result');
     }
 
-    searchCEP(){
-        return this.input;
+    getCepValue(){
+        return this.inputElement.value;
     }
 
-    Display(data){
-        const p = document.getElementById('resultCEP');
-        p.innerHTML = data;
-    }
-    Loading(){
-        this.divResult.innerHTML = '<p id="resultCEP" class=".result">Buscando CEP...</p>'
+    cleanInput(){
+        this.inputElement.value = '';
     }
 
-    Erro(){
-        this.divResult.innerHTML = `<p id="resultCEP" class=".result">CEP INVÁLIDO</p>`
+    renderSucess(data){
+        const html = `
+                <div class="cep-card">
+                <h3>Endereço Encontrado:</h3>
+                <p><strong>Rua:</strong> ${data.rua}</p>
+                <p><strong>Complemento:</strong> ${data.complemento}</p>
+                <p><strong>Bairro:</strong> ${data.bairro}</p>
+                <p><strong>Cidade/UF:</strong> ${data.cidade} / ${data.estado}</p>
+                </div>
+                `;
+
+        this.resultContainer.innerHTML = html;
+    }
+
+    renderLoading(){
+        this.resultContainer.innerHTML = '<p class="loading">Buscando Informações...</p>';
+    }
+
+    renderError(message){
+        this.resultContainer.innerHTML = `<p class="error-msg">${message}</p>`;
+    }
+    
+    cleanDisplay(){
+        this.resultContainer.innerHTML = '';
     }
 }
 
